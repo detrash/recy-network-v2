@@ -186,6 +186,12 @@ contract RecyTraceabilityCertificate is
     );
 
     event PricingUpdated(address indexed usdcToken, uint256 newPriceInUsdc);
+    event VolumetricPricingUpdated(
+        address indexed usdcToken,
+        uint256 pricePerKgInUsdc,
+        uint256 minCertificatePriceInUsdc,
+        uint64 updatedAt
+    );
     event SplitConfigUpdated(uint16 adminBps, uint16 auditorBps, uint16 buybackBps);
     event WalletsUpdated(
         address adminWallet,
@@ -220,6 +226,20 @@ contract RecyTraceabilityCertificate is
     mapping(bytes32 => bool) public isReportConsolidatedByIssuerInPeriod;
     mapping(uint256 => mapping(bytes32 => bool)) private _isReportInCertificate;
     mapping(address => bool) public whitelistedReportProxies;
+
+    // --- V2 Volumetric Pricing Storage (strictly appended after V1 slots) ---
+    /// @notice Price per 1 kg (1,000 g) in 6-decimal USDC (e.g., 20_000 = $0.02/kg), updated quarterly by Detrash.
+    ///         When > 0, overrides legacy flat `certificatePriceInUsdc`.
+    uint256 public pricePerKgInUsdc;
+
+    /// @notice Optional minimum certificate floor price in 6-decimal USDC (0 = no floor).
+    uint256 public minCertificatePriceInUsdc;
+
+    /// @notice Block timestamp of the last quarterly pricing update.
+    uint64 public pricingLastUpdatedAt;
+
+    /// @dev Reserved slots for future roadmap upgrades (e.g. decentralized carbon credit oracle).
+    uint256[47] private __gap;
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -397,7 +417,7 @@ contract RecyTraceabilityCertificate is
         cert.totalVolumeGrams = totalVol;
         cert.totalSustainableVolumeGrams = sustainableVol;
 
-        uint256 priceInUsdc = certificatePriceInUsdc;
+        uint256 priceInUsdc = calculateCertificatePrice(totalVol);
         if (priceInUsdc > 0) {
             _processCertificatePayment(
                 certId,
@@ -708,6 +728,49 @@ contract RecyTraceabilityCertificate is
     function setLandfillTreatmentId(uint8 _landfillTreatmentId) external onlyRole(ADMIN_ROLE) {
         landfillTreatmentId = _landfillTreatmentId;
         emit LandfillTreatmentIdUpdated(_landfillTreatmentId);
+    }
+
+    /**
+     * @notice Calculates certificate price in 6-decimal USDC for `volumeGrams`.
+     * @dev Uses ceiling division: ceil(volumeGrams * pricePerKgInUsdc / 1000), floored at minCertificatePriceInUsdc.
+     *      Example: 1,000,000 g (1,000 kg) at 20_000 ($0.02/kg) = 20_000_000 ($20.00 USDC).
+     *      Falls back to legacy flat `certificatePriceInUsdc` if `pricePerKgInUsdc == 0`.
+     */
+    function calculateCertificatePrice(uint256 volumeGrams) public view returns (uint256) {
+        uint256 ratePerKg = pricePerKgInUsdc;
+        if (ratePerKg == 0) {
+            return certificatePriceInUsdc;
+        }
+        uint256 volumetricPrice = volumeGrams == 0
+            ? 0
+            : (volumeGrams * ratePerKg + 999) / 1000;
+        return volumetricPrice < minCertificatePriceInUsdc
+            ? minCertificatePriceInUsdc
+            : volumetricPrice;
+    }
+
+    /**
+     * @notice Quarterly governance setter used by Detrash (ADMIN_ROLE) to update the USD/kg traceability rate.
+     * @param _usdcToken Settlement USDC token address (6 decimals).
+     * @param _pricePerKgInUsdc Price per kg in 6-decimal USDC (e.g., 20_000 = $0.02/kg).
+     * @param _minCertificatePriceInUsdc Optional minimum certificate price floor in 6-decimal USDC (0 = no floor).
+     */
+    function setVolumetricPricingConfig(
+        address _usdcToken,
+        uint256 _pricePerKgInUsdc,
+        uint256 _minCertificatePriceInUsdc
+    ) external onlyRole(ADMIN_ROLE) {
+        if (_usdcToken == address(0)) revert ZeroAddressNotAllowed();
+        usdcToken = IERC20(_usdcToken);
+        pricePerKgInUsdc = _pricePerKgInUsdc;
+        minCertificatePriceInUsdc = _minCertificatePriceInUsdc;
+        pricingLastUpdatedAt = uint64(block.timestamp);
+        emit VolumetricPricingUpdated(
+            _usdcToken,
+            _pricePerKgInUsdc,
+            _minCertificatePriceInUsdc,
+            pricingLastUpdatedAt
+        );
     }
 
     function setWhitelistedReportProxy(address proxy, bool status) external onlyRole(ADMIN_ROLE) {
