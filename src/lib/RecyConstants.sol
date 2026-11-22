@@ -38,6 +38,9 @@ library RecyConstants {
     /// @notice Status indicating rewards have been claimed and distributed
     uint8 public constant RECYCLE_REWARDED = 4;
 
+    /// @notice Status code for a recycle report permanently invalidated by an auditor
+    uint8 public constant RECYCLE_INVALIDATED = 5;
+
     /// @notice ERC4906 interface ID for metadata update events
     bytes4 public constant ERC4906_INTERFACE_ID = 0x49064906;
 

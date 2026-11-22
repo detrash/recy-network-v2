@@ -16,8 +16,10 @@ remappings = [
 ]
 
 [rpc_endpoints]
+mainnet = "${ETH_MAINNET_RPC_URL}"
 celo_sepolia = "https://forno.celo-sepolia.celo-testnet.org"
 celo_sepolia_fallback = "https://celo-sepolia.drpc.org"
 
 [etherscan]
+mainnet = { key = "${ETHERSCAN_API_KEY}", chain = 1 }
 celo_sepolia = { key = "blockscout", url = "https://celo-sepolia.blockscout.com/api", chain = 11142220 }

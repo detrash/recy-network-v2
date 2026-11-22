@@ -20,7 +20,7 @@ contract DeployTraceabilityCertificate is Script {
     uint24  constant USDC_CRECY_POOL_FEE = 3000; // 0.3% fee tier for USDC/cRECY
 
     // Treatment ID corresponding to Landfill in RecyReportAttributes
-    uint8   constant LANDFILL_TREATMENT_ID = 0;
+    uint8   constant LANDFILL_TREATMENT_ID = 1;
 
     // Initial Certificate Price: 50 USDC (6 decimals)
     uint256 constant INITIAL_PRICE_USDC = 50 * 1e6;
