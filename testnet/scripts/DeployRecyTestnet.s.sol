@@ -3,16 +3,16 @@ pragma solidity ^0.8.20;
 
 import "forge-std/Script.sol";
 import "forge-std/console2.sol";
-import "../src/RecyReportAttributes.sol";
-import "../src/RecyReportSvg.sol";
-import "../src/RecyReportData.sol";
-import "../src/RecyReport.sol";
-import "../src/RecyReportFactory.sol";
-import "../src/CRecy.sol";
-import "../src/cRECYStaking.sol";
-import "../src/TimeLock.sol";
-import "../src/RecyCertificate.sol";
-import "../src/RecyDistribution.sol";
+import "../../src/RecyReportAttributes.sol";
+import "../../src/RecyReportSvg.sol";
+import "../../src/RecyReportData.sol";
+import "../../src/RecyReport.sol";
+import "../../src/RecyReportFactory.sol";
+import "../../src/CRecy.sol";
+import "../../src/cRECYStaking.sol";
+import "../../src/TimeLock.sol";
+import "../../src/RecyCertificate.sol";
+import "../../src/RecyDistribution.sol";
 
 contract DeployRecyTestnet is Script {
     // Whitepaper Section 3.2: First difficulty epoch supply (2,138,428 cRECY)
@@ -109,7 +109,7 @@ contract DeployRecyTestnet is Script {
         string memory finalJson = vm.serializeAddress(obj, "GenesisRecyReportProxy", genesisReportProxy);
 
         string memory outputPath = string.concat(
-            "./deployments/recy-",
+            "./testnet/deployments/recy-",
             vm.toString(block.chainid),
             ".json"
         );

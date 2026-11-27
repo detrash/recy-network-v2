@@ -1,0 +1,47 @@
+{
+  "version": "1.0",
+  "chainId": "1",
+  "createdAt": 1763905740000,
+  "meta": {
+    "name": "Recy Network - Accept Ownable2Step Ownership (5 Contracts)",
+    "description": "Finalize Ownable2Step handover from Deployer to Protocol Safe on Ethereum Mainnet",
+    "txBuilderVersion": "1.17.1"
+  },
+  "transactions": [
+    {
+      "to": "0xca5F41D24E7eCb633A162F15A0BcA0d8db4E0A75",
+      "value": "0",
+      "data": "0x79ba5097",
+      "contractMethod": { "inputs": [], "name": "acceptOwnership", "payable": false },
+      "contractInputsValues": {}
+    },
+    {
+      "to": "0x4423f3A81432F9bF43178AB60336F82DbB3171DA",
+      "value": "0",
+      "data": "0x79ba5097",
+      "contractMethod": { "inputs": [], "name": "acceptOwnership", "payable": false },
+      "contractInputsValues": {}
+    },
+    {
+      "to": "0x6626EE0125f8912FccEF31d12378694349751717",
+      "value": "0",
+      "data": "0x79ba5097",
+      "contractMethod": { "inputs": [], "name": "acceptOwnership", "payable": false },
+      "contractInputsValues": {}
+    },
+    {
+      "to": "0xc5e9F929b0EFCBef5805F8e2B49D76A3c8A9249b",
+      "value": "0",
+      "data": "0x79ba5097",
+      "contractMethod": { "inputs": [], "name": "acceptOwnership", "payable": false },
+      "contractInputsValues": {}
+    },
+    {
+      "to": "0x43D29dAA7ac44bcd762DbC7c683c57BfdbbCFC6B",
+      "value": "0",
+      "data": "0x79ba5097",
+      "contractMethod": { "inputs": [], "name": "acceptOwnership", "payable": false },
+      "contractInputsValues": {}
+    }
+  ]
+}

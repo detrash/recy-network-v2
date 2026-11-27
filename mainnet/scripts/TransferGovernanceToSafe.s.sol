@@ -21,7 +21,7 @@ interface IOwnable2StepMinimal {
  *         from the deployer EOA to a deployed Gnosis Safe multisig.
  * @dev Required env vars:
  *      - MAINNET_SAFE_MULTISIG: Deployed Safe contract address (must have code.length > 0)
- *      - DEPLOYMENT_MANIFEST (optional): defaults to "./deployments/recy-eth-mainnet-1.json"
+ *      - DEPLOYMENT_MANIFEST (optional): defaults to "./mainnet/deployments/recy-eth-mainnet-1.json"
  */
 contract TransferGovernanceToSafe is Script {
     bytes32 private constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
@@ -37,7 +37,7 @@ contract TransferGovernanceToSafe is Script {
         address safe = vm.envAddress("MAINNET_SAFE_MULTISIG");
         require(safe != address(0) && safe.code.length > 0, "MAINNET_SAFE_MULTISIG must be a deployed contract");
 
-        string memory manifestPath = vm.envOr("DEPLOYMENT_MANIFEST", string("./deployments/recy-eth-mainnet-1.json"));
+        string memory manifestPath = vm.envOr("DEPLOYMENT_MANIFEST", string("./mainnet/deployments/recy-eth-mainnet-1.json"));
         string memory json = vm.readFile(manifestPath);
 
         address attributes = vm.parseJsonAddress(json, ".1_RecyReportAttributes");

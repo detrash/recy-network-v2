@@ -3,7 +3,7 @@ pragma solidity ^0.8.20;
 
 import {Script, console2} from "forge-std/Script.sol";
 import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
-import {RecyTraceabilityCertificate} from "../src/RecyTraceabilityCertificate.sol";
+import {RecyTraceabilityCertificate} from "../../src/RecyTraceabilityCertificate.sol";
 
 contract DeployTraceabilityCertificate is Script {
     // Deployed Recy Network Celo Sepolia Addresses

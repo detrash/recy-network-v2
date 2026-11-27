@@ -3,12 +3,12 @@ pragma solidity ^0.8.20;
 
 import "forge-std/Script.sol";
 import "forge-std/console2.sol";
-import "../src/RecyReportFactory.sol";
-import "../src/RecyReportAttributes.sol";
-import "../src/RecyDistribution.sol";
-import "../src/cRECYStaking.sol";
-import "../src/TimeLock.sol";
-import "../src/RecyCertificate.sol";
+import "../../src/RecyReportFactory.sol";
+import "../../src/RecyReportAttributes.sol";
+import "../../src/RecyDistribution.sol";
+import "../../src/cRECYStaking.sol";
+import "../../src/TimeLock.sol";
+import "../../src/RecyCertificate.sol";
 
 interface IERC20AndAccess {
     function balanceOf(address account) external view returns (uint256);
