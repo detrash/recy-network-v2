@@ -25,5 +25,7 @@
   "treasuryOperator": "0x1EF3a7ba64f313a9b32A2B1519250E6C1D476356",
   "uniswapV4PoolManager": "0x000000000004444c5dc75cB358380D2e3dE08A90",
   "uniswapV4PositionManager": "0xbD216513d74C8cf14cf4747E6AaA6420FF64ee9e",
-  "usdc": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+  "usdc": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+  "UniswapV4PositionTokenId": "534341",
+  "UniswapV4PoolUrl": "https://app.uniswap.org/explore/pools/ethereum/0x7aa99be0e16ef96782c8f69dfffaec424392aa76bea3076dcfe147d375ad11f3"
 }
